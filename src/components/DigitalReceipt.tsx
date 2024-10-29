@@ -3,9 +3,11 @@ import { Button } from "@/components/ui/button";
 
 interface DigitalReceiptProps {
   data: {
-    accountNumber: string;
-    amount: string;
+    accountNumber?: string;
+    amount?: string;
     queueNumber: string;
+    firstName?: string;
+    lastName?: string;
   };
   onClose: () => void;
 }
@@ -23,14 +25,33 @@ const DigitalReceipt = ({ data, onClose }: DigitalReceiptProps) => {
           </div>
           
           <div className="space-y-2">
-            <div>
-              <p className="text-sm text-gray-600">Account Number</p>
-              <p className="font-medium">{data.accountNumber}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Amount</p>
-              <p className="font-medium">${data.amount}</p>
-            </div>
+            {data.firstName && data.lastName ? (
+              <>
+                <div>
+                  <p className="text-sm text-gray-600">Name</p>
+                  <p className="font-medium">{data.firstName} {data.lastName}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">Initial Balance</p>
+                  <p className="font-medium">₱{parseFloat(data.amount || "0").toFixed(2)}</p>
+                </div>
+              </>
+            ) : (
+              <>
+                {data.accountNumber && (
+                  <div>
+                    <p className="text-sm text-gray-600">Account Number</p>
+                    <p className="font-medium">{data.accountNumber}</p>
+                  </div>
+                )}
+                {data.amount && (
+                  <div>
+                    <p className="text-sm text-gray-600">Amount</p>
+                    <p className="font-medium">₱{parseFloat(data.amount).toFixed(2)}</p>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         </div>
 

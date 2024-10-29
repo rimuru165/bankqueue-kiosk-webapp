@@ -1,4 +1,4 @@
-import { Banknote, UserPlus, Wallet, Receipt } from "lucide-react";
+import { Banknote, UserPlus, Wallet, Receipt, UserMinus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
@@ -12,6 +12,7 @@ const KioskMenu = ({ onSelectOption }: KioskMenuProps) => {
     { id: "withdraw", label: "Withdraw", icon: <Wallet className="w-6 h-6" /> },
     { id: "openAccount", label: "Open Account", icon: <UserPlus className="w-6 h-6" /> },
     { id: "loan", label: "Loan", icon: <Receipt className="w-6 h-6" /> },
+    { id: "closeAccount", label: "Close Account", icon: <UserMinus className="w-6 h-6" /> },
   ];
 
   return (
