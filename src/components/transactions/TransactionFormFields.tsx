@@ -1,11 +1,10 @@
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { FormData } from "@/types/transactions";
 
 const inputStyle = {
   WebkitAppearance: "none",
   MozAppearance: "none" as const,
-  appearance: "textfield"
+  appearance: "none" as const
 };
 
 interface TransactionFormFieldsProps {
