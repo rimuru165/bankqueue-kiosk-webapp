@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import { FormData } from "@/types/transactions";
 
 const inputStyle = {
-  WebkitAppearance: "none",
+  WebkitAppearance: "none" as const,
   MozAppearance: "none" as const,
   appearance: "none" as const
 };
