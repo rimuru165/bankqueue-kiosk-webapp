@@ -6,6 +6,7 @@ import { TransactionFormFields } from "./transactions/TransactionFormFields";
 import { LoanTypeSelection } from "./transactions/LoanTypeSelection";
 import { FormData, TransactionData, ServerResponse } from "@/types/transactions";
 import axios from "axios";
+import { useToast } from "@/components/ui/use-toast";
 
 interface TransactionFlowProps {
   type: string;
@@ -17,6 +18,7 @@ const MONTHLY_INTEREST_RATE = 3.5;
 
 const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => {
   const [step, setStep] = useState(type === "loan" ? 0 : 1);
+  const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>({
     accountNumber: "",
     amount: "",
@@ -37,9 +39,14 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
       try {
         const response = await axios.post('http://localhost:6543/queue/create-receipt', transactionData);
         onComplete(response.data);
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error creating receipt:', error);
-        // Here you might want to show an error toast to the user
+        toast({
+          variant: "destructive",
+          title: "Server Error",
+          description: error.response?.data?.message || 
+                      "Unable to connect to the server. Please ensure the server is running at http://localhost:6543",
+        });
       }
     }
   };
