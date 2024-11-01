@@ -12,9 +12,16 @@ interface TransactionFormFieldsProps {
   formData: FormData;
   onChange: (data: Partial<FormData>) => void;
   loanType?: "open" | "pay";
+  monthlyInterest?: number;
 }
 
-export const TransactionFormFields = ({ type, formData, onChange, loanType }: TransactionFormFieldsProps) => {
+export const TransactionFormFields = ({ 
+  type, 
+  formData, 
+  onChange, 
+  loanType,
+  monthlyInterest 
+}: TransactionFormFieldsProps) => {
   if (type === "openAccount") {
     return (
       <div className="space-y-4">
@@ -84,17 +91,15 @@ export const TransactionFormFields = ({ type, formData, onChange, loanType }: Tr
           />
         </label>
       )}
-      {type === "loan" && loanType === "open" && (
+      {type === "loan" && loanType === "open" && monthlyInterest && (
         <label className="block text-sm font-medium">
           Monthly Interest Rate (%)
           <Input
             type="number"
-            value={formData.monthlyInterest}
-            onChange={(e) => onChange({ monthlyInterest: e.target.value })}
-            className="mt-1"
-            required
+            value={monthlyInterest}
+            className="mt-1 bg-gray-100"
+            disabled
             style={inputStyle}
-            defaultValue="2.5"
           />
         </label>
       )}

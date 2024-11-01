@@ -1,14 +1,9 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { ServerResponse } from "@/types/transactions";
 
 interface DigitalReceiptProps {
-  data: {
-    accountNumber?: string;
-    amount?: string;
-    queueNumber: string;
-    firstName?: string;
-    lastName?: string;
-  };
+  data: ServerResponse;
   onClose: () => void;
 }
 
@@ -21,33 +16,39 @@ const DigitalReceipt = ({ data, onClose }: DigitalReceiptProps) => {
         <div className="space-y-4 py-6 border-y">
           <div>
             <p className="text-sm text-gray-600">Queue Number</p>
-            <p className="text-3xl font-bold text-primary">{data.queueNumber}</p>
+            <p className="text-3xl font-bold text-primary">{data.queue_number}</p>
           </div>
           
           <div className="space-y-2">
-            {data.firstName && data.lastName ? (
+            {data.firstname && data.lastname ? (
               <>
                 <div>
                   <p className="text-sm text-gray-600">Name</p>
-                  <p className="font-medium">{data.firstName} {data.lastName}</p>
+                  <p className="font-medium">{data.firstname} {data.lastname}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Initial Balance</p>
-                  <p className="font-medium">₱{parseFloat(data.amount || "0").toFixed(2)}</p>
+                  <p className="font-medium">₱{data.amount?.toFixed(2)}</p>
                 </div>
               </>
             ) : (
               <>
-                {data.accountNumber && (
+                {data.account_ID && (
                   <div>
                     <p className="text-sm text-gray-600">Account Number</p>
-                    <p className="font-medium">{data.accountNumber}</p>
+                    <p className="font-medium">{data.account_ID}</p>
                   </div>
                 )}
-                {data.amount && (
+                {data.amount !== undefined && (
                   <div>
                     <p className="text-sm text-gray-600">Amount</p>
-                    <p className="font-medium">₱{parseFloat(data.amount).toFixed(2)}</p>
+                    <p className="font-medium">₱{data.amount.toFixed(2)}</p>
+                  </div>
+                )}
+                {data.monthly_interest !== undefined && (
+                  <div>
+                    <p className="text-sm text-gray-600">Monthly Interest Rate</p>
+                    <p className="font-medium">{data.monthly_interest}%</p>
                   </div>
                 )}
               </>

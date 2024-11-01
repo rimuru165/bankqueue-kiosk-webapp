@@ -4,15 +4,16 @@ import { Card } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import { TransactionFormFields } from "./transactions/TransactionFormFields";
 import { LoanTypeSelection } from "./transactions/LoanTypeSelection";
-import { FormData, TransactionData } from "@/types/transactions";
+import { FormData, TransactionData, ServerResponse } from "@/types/transactions";
+import axios from "axios";
 
 interface TransactionFlowProps {
   type: string;
-  onComplete: (data: any) => void;
+  onComplete: (data: ServerResponse) => void;
   onBack: () => void;
 }
 
-const DEFAULT_MONTHLY_INTEREST = 2.5;
+const MONTHLY_INTEREST_RATE = 3.5;
 
 const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => {
   const [step, setStep] = useState(type === "loan" ? 0 : 1);
@@ -22,17 +23,24 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
     firstName: "",
     lastName: "",
     loanType: "open",
-    monthlyInterest: DEFAULT_MONTHLY_INTEREST.toString(),
+    monthlyInterest: MONTHLY_INTEREST_RATE.toString(),
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (step === 1) {
       setStep(2);
     } else {
       const transactionData: TransactionData = prepareTransactionData();
       console.log("Transaction Data:", transactionData);
-      onComplete(formData);
+      
+      try {
+        const response = await axios.post('http://localhost:6543/queue/create-receipt', transactionData);
+        onComplete(response.data);
+      } catch (error) {
+        console.error('Error creating receipt:', error);
+        // Here you might want to show an error toast to the user
+      }
     }
   };
 
@@ -61,7 +69,7 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
         account_ID: formData.accountNumber,
         amount: parseFloat(formData.amount),
         ...(formData.loanType === "open" && {
-          monthly_interest: parseFloat(formData.monthlyInterest),
+          monthly_interest: MONTHLY_INTEREST_RATE,
         }),
       };
     }
@@ -107,7 +115,9 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
       </Button>
       
       <h2 className="text-2xl font-bold text-center mb-6 text-primary">
-        {type.charAt(0).toUpperCase() + type.slice(1)}
+        {type === "loan" 
+          ? `${formData.loanType === "open" ? "Open Loan" : "Pay Loan"}`
+          : type.charAt(0).toUpperCase() + type.slice(1)}
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -117,6 +127,7 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
             formData={formData}
             onChange={(data) => setFormData(prev => ({ ...prev, ...data }))}
             loanType={formData.loanType}
+            monthlyInterest={MONTHLY_INTEREST_RATE}
           />
         ) : (
           <div className="space-y-6">
@@ -138,18 +149,10 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
                     <>
                       <p className="text-sm text-gray-600">Amount:</p>
                       <p className="font-medium">₱{parseFloat(formData.amount).toFixed(2)}</p>
-                    </>
-                  )}
-                  {type === "loan" && (
-                    <>
-                      <p className="text-sm text-gray-600">Loan Type:</p>
-                      <p className="font-medium">
-                        {formData.loanType === "open" ? "Open Loan" : "Pay Loan"}
-                      </p>
-                      {formData.loanType === "open" && (
+                      {type === "loan" && formData.loanType === "open" && (
                         <>
                           <p className="text-sm text-gray-600">Monthly Interest Rate:</p>
-                          <p className="font-medium">{formData.monthlyInterest}%</p>
+                          <p className="font-medium">{MONTHLY_INTEREST_RATE}%</p>
                         </>
                       )}
                     </>
