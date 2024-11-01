@@ -4,7 +4,11 @@ import { Card } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import { TransactionFormFields } from "./transactions/TransactionFormFields";
 import { LoanTypeSelection } from "./transactions/LoanTypeSelection";
-import { FormData, TransactionData, ServerResponse } from "@/types/transactions";
+import {
+  FormData,
+  TransactionData,
+  ServerResponse,
+} from "@/types/transactions";
 import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -16,7 +20,11 @@ interface TransactionFlowProps {
 
 const MONTHLY_INTEREST_RATE = 3.5;
 
-const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => {
+const TransactionFlow = ({
+  type,
+  onComplete,
+  onBack,
+}: TransactionFlowProps) => {
   const [step, setStep] = useState(type === "loan" ? 0 : 1);
   const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>({
@@ -35,17 +43,21 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
     } else {
       const transactionData: TransactionData = prepareTransactionData();
       console.log("Transaction Data:", transactionData);
-      
+
       try {
-        const response = await axios.post('http://localhost:6543/queue/create-receipt', transactionData);
+        const response = await axios.post(
+          "http://localhost:6543/queue/create-receipt",
+          transactionData
+        );
         onComplete(response.data);
       } catch (error: any) {
-        console.error('Error creating receipt:', error);
+        console.error("Error creating receipt:", error);
         toast({
           variant: "destructive",
           title: "Server Error",
-          description: error.response?.data?.message || 
-                      "Unable to connect to the server. Please ensure the server is running at http://localhost:6543",
+          description:
+            error.response?.data?.message ||
+            "Unable to connect to the server. Please ensure the server is running at http://localhost:6543",
         });
       }
     }
@@ -91,15 +103,19 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
   const getTransactionType = (): string => {
     if (type === "loan") {
       return formData.loanType === "open" ? "open_loan" : "pay_loan";
+    } else if (type === "openAccount") {
+      return "open_account";
+    } else if (type === "closeAccount") {
+      return "close_account";
     }
-    return type === "openAccount" ? "open_account" : type;
+    return type; // applies to deposit and withdrawal transaction types
   };
 
   const formatName = (name: string) => {
     return name
       .trim()
       .split(/\s+/)
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(" ");
   };
 
@@ -107,7 +123,7 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
     return (
       <LoanTypeSelection
         onSelect={(loanType) => {
-          setFormData(prev => ({ ...prev, loanType }));
+          setFormData((prev) => ({ ...prev, loanType }));
           setStep(1);
         }}
         onBack={onBack}
@@ -120,9 +136,9 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
       <Button variant="ghost" className="mb-4" onClick={onBack}>
         ← Back
       </Button>
-      
+
       <h2 className="text-2xl font-bold text-center mb-6 text-primary">
-        {type === "loan" 
+        {type === "loan"
           ? `${formData.loanType === "open" ? "Open Loan" : "Pay Loan"}`
           : type.charAt(0).toUpperCase() + type.slice(1)}
       </h2>
@@ -132,7 +148,7 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
           <TransactionFormFields
             type={type}
             formData={formData}
-            onChange={(data) => setFormData(prev => ({ ...prev, ...data }))}
+            onChange={(data) => setFormData((prev) => ({ ...prev, ...data }))}
             loanType={formData.loanType}
             monthlyInterest={MONTHLY_INTEREST_RATE}
           />
@@ -142,11 +158,15 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
               {type === "openAccount" ? (
                 <>
                   <p className="text-sm text-gray-600">First Name:</p>
-                  <p className="font-medium">{formatName(formData.firstName)}</p>
+                  <p className="font-medium">
+                    {formatName(formData.firstName)}
+                  </p>
                   <p className="text-sm text-gray-600">Last Name:</p>
                   <p className="font-medium">{formatName(formData.lastName)}</p>
                   <p className="text-sm text-gray-600">Initial Balance:</p>
-                  <p className="font-medium">₱{parseFloat(formData.amount).toFixed(2)}</p>
+                  <p className="font-medium">
+                    ₱{parseFloat(formData.amount).toFixed(2)}
+                  </p>
                 </>
               ) : (
                 <>
@@ -155,11 +175,17 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
                   {type !== "closeAccount" && (
                     <>
                       <p className="text-sm text-gray-600">Amount:</p>
-                      <p className="font-medium">₱{parseFloat(formData.amount).toFixed(2)}</p>
+                      <p className="font-medium">
+                        ₱{parseFloat(formData.amount).toFixed(2)}
+                      </p>
                       {type === "loan" && formData.loanType === "open" && (
                         <>
-                          <p className="text-sm text-gray-600">Monthly Interest Rate:</p>
-                          <p className="font-medium">{MONTHLY_INTEREST_RATE}%</p>
+                          <p className="text-sm text-gray-600">
+                            Monthly Interest Rate:
+                          </p>
+                          <p className="font-medium">
+                            {MONTHLY_INTEREST_RATE}%
+                          </p>
                         </>
                       )}
                     </>
@@ -169,9 +195,11 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
             </div>
           </div>
         )}
-        <Button 
-          type="submit" 
-          className={`w-full ${step === 2 ? "bg-success hover:bg-success/90" : ""}`}
+        <Button
+          type="submit"
+          className={`w-full ${
+            step === 2 ? "bg-success hover:bg-success/90" : ""
+          }`}
         >
           {step === 2 && <Check className="w-4 h-4 mr-2" />}
           {step === 1 ? "Continue" : "Confirm"}
