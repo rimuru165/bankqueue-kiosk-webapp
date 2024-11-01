@@ -8,6 +8,9 @@ interface DigitalReceiptProps {
 }
 
 const DigitalReceipt = ({ data, onClose }: DigitalReceiptProps) => {
+  // Helper function to determine if it's a loan transaction
+  const isLoanTransaction = (type: string) => type.includes('loan');
+
   return (
     <Card className="p-6 bg-white shadow-lg animate-slideIn">
       <div className="text-center space-y-6">
