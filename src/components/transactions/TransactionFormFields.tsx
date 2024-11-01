@@ -4,7 +4,7 @@ import { FormData } from "@/types/transactions";
 const inputStyle = {
   WebkitAppearance: "none" as const,
   MozAppearance: "none" as const,
-  appearance: "none" as const
+  appearance: "none" as const,
 };
 
 interface TransactionFormFieldsProps {
@@ -15,12 +15,12 @@ interface TransactionFormFieldsProps {
   monthlyInterest?: number;
 }
 
-export const TransactionFormFields = ({ 
-  type, 
-  formData, 
-  onChange, 
+export const TransactionFormFields = ({
+  type,
+  formData,
+  onChange,
   loanType,
-  monthlyInterest 
+  monthlyInterest,
 }: TransactionFormFieldsProps) => {
   if (type === "openAccount") {
     return (
@@ -48,9 +48,14 @@ export const TransactionFormFields = ({
         <label className="block text-sm font-medium">
           Initial Balance
           <Input
-            type="number"
+            type="text"
+            pattern="[0-9]*"
+            inputMode="numeric"
             value={formData.amount}
-            onChange={(e) => onChange({ amount: e.target.value })}
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, "");
+              onChange({ amount: value });
+            }}
             className="mt-1"
             required
             style={inputStyle}
@@ -70,7 +75,7 @@ export const TransactionFormFields = ({
           inputMode="numeric"
           value={formData.accountNumber}
           onChange={(e) => {
-            const value = e.target.value.replace(/\D/g, '');
+            const value = e.target.value.replace(/\D/g, "");
             onChange({ accountNumber: value });
           }}
           className="mt-1"
@@ -80,11 +85,20 @@ export const TransactionFormFields = ({
       </label>
       {type !== "closeAccount" && (
         <label className="block text-sm font-medium">
-          {type === "loan" ? (loanType === "open" ? "Loan Amount" : "Payment Amount") : "Amount"}
+          {type === "loan"
+            ? loanType === "open"
+              ? "Loan Amount"
+              : "Payment Amount"
+            : "Amount"}
           <Input
-            type="number"
+            type="text"
+            pattern="[0-9]*"
+            inputMode="numeric"
             value={formData.amount}
-            onChange={(e) => onChange({ amount: e.target.value })}
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, "");
+              onChange({ amount: value });
+            }}
             className="mt-1"
             required
             style={inputStyle}
@@ -95,7 +109,13 @@ export const TransactionFormFields = ({
         <label className="block text-sm font-medium">
           Monthly Interest Rate (%)
           <Input
-            type="number"
+            type="text"
+            pattern="[0-9]*"
+            inputMode="numeric"
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, "");
+              onChange({ amount: value });
+            }}
             value={monthlyInterest}
             className="mt-1 bg-gray-100"
             disabled
