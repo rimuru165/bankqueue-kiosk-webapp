@@ -29,23 +29,32 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-secondary p-4 sm:p-6 lg:p-8 flex items-center justify-center">
-      <div className="w-full max-w-2xl">
+    <div 
+      className="min-h-screen p-4 sm:p-6 lg:p-8 flex items-center justify-center bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: 'url("/underwater-bg.jpg")' }}
+    >
+      <div className="w-full max-w-2xl backdrop-blur-sm">
         {currentView === "menu" && (
-          <KioskMenu onSelectOption={handleOptionSelect} />
+          <div className="bg-white/80 rounded-lg shadow-lg">
+            <KioskMenu onSelectOption={handleOptionSelect} />
+          </div>
         )}
         {currentView === "transaction" && (
-          <TransactionFlow
-            type={selectedOption}
-            onComplete={handleTransactionComplete}
-            onBack={handleBack}
-          />
+          <div className="bg-white/80 rounded-lg shadow-lg">
+            <TransactionFlow
+              type={selectedOption}
+              onComplete={handleTransactionComplete}
+              onBack={handleBack}
+            />
+          </div>
         )}
         {currentView === "receipt" && receiptData && (
-          <DigitalReceipt
-            data={receiptData}
-            onClose={handleBack}
-          />
+          <div className="bg-white/80 rounded-lg shadow-lg">
+            <DigitalReceipt
+              data={receiptData}
+              onClose={handleBack}
+            />
+          </div>
         )}
       </div>
     </div>

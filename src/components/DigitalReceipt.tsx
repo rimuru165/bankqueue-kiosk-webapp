@@ -8,15 +8,12 @@ interface DigitalReceiptProps {
 }
 
 const DigitalReceipt = ({ data, onClose }: DigitalReceiptProps) => {
-  // Helper function to determine if it's a loan transaction
-  const isLoanTransaction = (type: string) => type.includes('loan');
-
   return (
-    <Card className="p-6 bg-white shadow-lg animate-slideIn">
+    <Card className="p-6 bg-white/80 shadow-lg animate-slideIn">
       <div className="text-center space-y-6">
         <h2 className="text-2xl font-bold text-primary">Digital Queue Receipt</h2>
         
-        <div className="space-y-4 py-6 border-y">
+        <div className="space-y-4 py-6 border-y border-primary/20">
           <div>
             <p className="text-sm text-gray-600">Queue Number</p>
             <p className="text-3xl font-bold text-primary">{data.queue_number}</p>

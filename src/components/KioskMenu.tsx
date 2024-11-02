@@ -16,7 +16,7 @@ const KioskMenu = ({ onSelectOption }: KioskMenuProps) => {
   ];
 
   return (
-    <Card className="p-6 bg-white shadow-lg">
+    <Card className="p-6 bg-transparent shadow-lg">
       <div className="flex flex-col items-center mb-8">
         <img 
           src="/logo.svg" 
@@ -31,7 +31,7 @@ const KioskMenu = ({ onSelectOption }: KioskMenuProps) => {
           <Button
             key={option.id}
             variant="outline"
-            className="h-32 flex flex-col items-center justify-center gap-2 text-lg hover:bg-secondary transition-colors border-2 border-primary/20"
+            className="h-32 flex flex-col items-center justify-center gap-2 text-lg hover:bg-secondary/80 transition-colors border-2 border-primary/20 bg-white/60"
             onClick={() => onSelectOption(option.id)}
           >
             {option.icon}
