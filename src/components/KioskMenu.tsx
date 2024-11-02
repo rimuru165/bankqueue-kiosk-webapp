@@ -17,13 +17,21 @@ const KioskMenu = ({ onSelectOption }: KioskMenuProps) => {
 
   return (
     <Card className="p-6 bg-white shadow-lg">
-      <h2 className="text-2xl font-bold text-center mb-8 text-primary">Welcome to Digital Banking</h2>
+      <div className="flex flex-col items-center mb-8">
+        <img 
+          src="/logo.svg" 
+          alt="Fontain Bank Inc. Logo" 
+          className="w-24 h-24 mb-4"
+        />
+        <h1 className="text-3xl font-bold text-primary mb-2">Fontain Bank Inc.</h1>
+        <p className="text-sm text-gray-600">Digital Banking Solutions</p>
+      </div>
       <div className="grid grid-cols-2 gap-4">
         {menuOptions.map((option) => (
           <Button
             key={option.id}
             variant="outline"
-            className="h-32 flex flex-col items-center justify-center gap-2 text-lg hover:bg-secondary transition-colors"
+            className="h-32 flex flex-col items-center justify-center gap-2 text-lg hover:bg-secondary transition-colors border-2 border-primary/20"
             onClick={() => onSelectOption(option.id)}
           >
             {option.icon}
