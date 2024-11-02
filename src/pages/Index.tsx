@@ -30,17 +30,21 @@ const Index = () => {
 
   return (
     <div 
-      className="min-h-screen p-4 sm:p-6 lg:p-8 flex items-center justify-center bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: 'url("/underwater-bg.jpg")' }}
+      className="min-h-screen p-4 sm:p-6 lg:p-8 flex items-center justify-center bg-cover bg-center bg-no-repeat bg-fixed"
+      style={{ 
+        backgroundImage: 'url("/underwater-bg.jpg")',
+        backgroundColor: '#001a33',
+        backgroundBlendMode: 'overlay'
+      }}
     >
-      <div className="w-full max-w-2xl backdrop-blur-sm">
+      <div className="w-full max-w-2xl backdrop-blur-sm bg-black/30">
         {currentView === "menu" && (
-          <div className="bg-white/80 rounded-lg shadow-lg">
+          <div className="rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)]">
             <KioskMenu onSelectOption={handleOptionSelect} />
           </div>
         )}
         {currentView === "transaction" && (
-          <div className="bg-white/80 rounded-lg shadow-lg">
+          <div className="rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)]">
             <TransactionFlow
               type={selectedOption}
               onComplete={handleTransactionComplete}
@@ -49,7 +53,7 @@ const Index = () => {
           </div>
         )}
         {currentView === "receipt" && receiptData && (
-          <div className="bg-white/80 rounded-lg shadow-lg">
+          <div className="rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)]">
             <DigitalReceipt
               data={receiptData}
               onClose={handleBack}

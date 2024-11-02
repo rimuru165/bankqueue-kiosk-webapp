@@ -25,12 +25,12 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#0088FF", // Logo blue color
+          DEFAULT: "#00ffff", // Neon cyan color
           foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#F0F7FF", // Light blue background
-          foreground: "#0066CC",
+          DEFAULT: "#001a33", // Dark blue background
+          foreground: "#00ffff",
         },
         success: {
           DEFAULT: "#10B981",
@@ -45,16 +45,12 @@ export default {
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "#E6F2FF", // Very light blue accent
-          foreground: "#0088FF",
+          DEFAULT: "#003366", // Deep blue accent
+          foreground: "#00ffff",
         },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+        background: {
+          DEFAULT: "#001a33", // Dark blue background for better contrast
+          foreground: "#00ffff", // Neon cyan foreground
         },
       },
       borderRadius: {
