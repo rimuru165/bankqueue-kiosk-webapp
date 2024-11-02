@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import { TransactionFormFields } from "./transactions/TransactionFormFields";
 import { LoanTypeSelection } from "./transactions/LoanTypeSelection";
+import { TransactionCard } from "./transactions/TransactionCard";
+import { TransactionButton } from "./transactions/TransactionButton";
 import {
   FormData,
   TransactionData,
@@ -20,11 +20,7 @@ interface TransactionFlowProps {
 
 const MONTHLY_INTEREST_RATE = 3.5;
 
-const TransactionFlow = ({
-  type,
-  onComplete,
-  onBack,
-}: TransactionFlowProps) => {
+const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => {
   const [step, setStep] = useState(type === "loan" ? 0 : 1);
   const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>({
@@ -132,12 +128,12 @@ const TransactionFlow = ({
   }
 
   return (
-    <Card className="p-6 bg-white shadow-lg animate-slideIn">
-      <Button variant="ghost" className="mb-4" onClick={onBack}>
+    <TransactionCard>
+      <TransactionButton variant="ghost" className="mb-4" onClick={onBack}>
         ← Back
-      </Button>
+      </TransactionButton>
 
-      <h2 className="text-2xl font-bold text-center mb-6 text-primary">
+      <h2 className="text-2xl font-bold text-center mb-6 text-transparent bg-gradient-to-r from-cyan-300 via-cyan-200 to-blue-300 bg-clip-text animate-pulse shadow-glow">
         {type === "loan"
           ? `${formData.loanType === "open" ? "Open Loan" : "Pay Loan"}`
           : type.charAt(0).toUpperCase() + type.slice(1)}
@@ -154,7 +150,7 @@ const TransactionFlow = ({
           />
         ) : (
           <div className="space-y-6">
-            <div className="space-y-2">
+            <div className="space-y-2 text-cyan-100">
               {type === "openAccount" ? (
                 <>
                   <p className="text-sm text-gray-600">First Name:</p>
@@ -195,17 +191,15 @@ const TransactionFlow = ({
             </div>
           </div>
         )}
-        <Button
+        <TransactionButton
           type="submit"
-          className={`w-full ${
-            step === 2 ? "bg-success hover:bg-success/90" : ""
-          }`}
+          className={step === 2 ? "bg-success/20 hover:bg-success/30 w-full" : "w-full"}
         >
           {step === 2 && <Check className="w-4 h-4 mr-2" />}
           {step === 1 ? "Continue" : "Confirm"}
-        </Button>
+        </TransactionButton>
       </form>
-    </Card>
+    </TransactionCard>
   );
 };
 
