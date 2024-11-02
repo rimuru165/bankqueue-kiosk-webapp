@@ -37,21 +37,24 @@ const Index = () => {
         backgroundBlendMode: 'overlay'
       }}
     >
-      {/* Animated background elements */}
+      {/* Enhanced animated background elements */}
       <div className="absolute inset-0">
         <div className="absolute w-64 sm:w-96 h-64 sm:h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse -top-32 -left-32"></div>
         <div className="absolute w-64 sm:w-96 h-64 sm:h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse -bottom-32 -right-32"></div>
+        <div className="absolute w-64 sm:w-96 h-64 sm:h-96 bg-cyan-400/10 rounded-full blur-3xl animate-pulse opacity-75 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
         <div className="absolute w-full h-full bg-gradient-to-b from-transparent via-black/30 to-black/50"></div>
       </div>
 
       <div className="w-full max-w-2xl relative px-2 sm:px-0">
         {currentView === "menu" && (
-          <div className="rounded-xl sm:rounded-2xl overflow-hidden backdrop-blur-md bg-white/5 border border-white/10 shadow-[0_0_25px_rgba(0,255,255,0.2)]">
+          <div className="rounded-xl sm:rounded-2xl overflow-hidden backdrop-blur-md bg-white/5 border border-white/10 
+                        shadow-[0_0_25px_rgba(0,255,255,0.2)] hover:shadow-[0_0_35px_rgba(0,255,255,0.3)] transition-shadow duration-300">
             <KioskMenu onSelectOption={handleOptionSelect} />
           </div>
         )}
         {currentView === "transaction" && (
-          <div className="rounded-xl sm:rounded-2xl overflow-hidden backdrop-blur-md bg-white/5 border border-white/10 shadow-[0_0_25px_rgba(0,255,255,0.2)]">
+          <div className="rounded-xl sm:rounded-2xl overflow-hidden backdrop-blur-md bg-white/5 border border-white/10 
+                        shadow-[0_0_25px_rgba(0,255,255,0.2)] hover:shadow-[0_0_35px_rgba(0,255,255,0.3)] transition-shadow duration-300">
             <TransactionFlow
               type={selectedOption}
               onComplete={handleTransactionComplete}
@@ -60,7 +63,8 @@ const Index = () => {
           </div>
         )}
         {currentView === "receipt" && receiptData && (
-          <div className="rounded-xl sm:rounded-2xl overflow-hidden backdrop-blur-md bg-white/5 border border-white/10 shadow-[0_0_25px_rgba(0,255,255,0.2)]">
+          <div className="rounded-xl sm:rounded-2xl overflow-hidden backdrop-blur-md bg-white/5 border border-white/10 
+                        shadow-[0_0_25px_rgba(0,255,255,0.2)] hover:shadow-[0_0_35px_rgba(0,255,255,0.3)] transition-shadow duration-300">
             <DigitalReceipt
               data={receiptData}
               onClose={handleBack}

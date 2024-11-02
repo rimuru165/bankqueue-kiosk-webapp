@@ -75,3 +75,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .shadow-glow {
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5),
+                 0 0 20px rgba(0, 255, 255, 0.3),
+                 0 0 30px rgba(0, 255, 255, 0.2);
+  }
+  
+  .text-shadow-neon {
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+  }
+}
