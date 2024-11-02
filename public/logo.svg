@@ -1,19 +1,29 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Outer Circle with Neon Glow -->
-  <circle cx="256" cy="256" r="240" stroke="#00ffff" stroke-width="8" filter="url(#neon-glow)"/>
+  <!-- Background Diamond -->
+  <rect x="56" y="56" width="400" height="400" transform="rotate(45 256 256)" fill="#001a33" filter="url(#neon-glow)"/>
   
-  <!-- Inner F Design -->
-  <path d="M186 146h140v40H226v70h80v40h-80v70h100v40H186V146z" fill="#00ffff"/>
+  <!-- Art Deco Logo -->
+  <path d="M131 146h250v220H131V146zm20 20h210v180H151V166z" fill="#D4AF37" filter="url(#gold-glow)"/>
+  <path d="M256 176c-44.183 0-80 35.817-80 80s35.817 80 80 80 80-35.817 80-80-35.817-80-80-80zm0 20c33.137 0 60 26.863 60 60s-26.863 60-60 60-60-26.863-60-60 26.863-60 60-60z" fill="#D4AF37" filter="url(#gold-glow)"/>
+  <path d="M256 206c-27.614 0-50 22.386-50 50s22.386 50 50 50 50-22.386 50-50-22.386-50-50-50zm0 20c16.569 0 30 13.431 30 30s-13.431 30-30 30-30-13.431-30-30 13.431-30 30-30z" fill="#D4AF37" filter="url(#gold-glow)"/>
   
   <!-- Decorative Elements -->
-  <circle cx="256" cy="256" r="180" stroke="#00ffff" stroke-width="4" opacity="0.5"/>
-  <circle cx="256" cy="256" r="160" stroke="#00ffff" stroke-width="2" opacity="0.3"/>
+  <path d="M151 146l105 60 105-60M151 366l105-60 105 60" stroke="#D4AF37" stroke-width="2" filter="url(#gold-glow)"/>
   
-  <!-- Neon Glow Filter -->
+  <!-- Filters -->
   <defs>
     <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur stdDeviation="4" result="blur"/>
       <feFlood flood-color="#00ffff" flood-opacity="0.5"/>
+      <feComposite in2="blur" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="gold-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feFlood flood-color="#D4AF37" flood-opacity="0.5"/>
       <feComposite in2="blur" operator="in"/>
       <feMerge>
         <feMergeNode/>
