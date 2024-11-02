@@ -18,11 +18,6 @@ const KioskMenu = ({ onSelectOption }: KioskMenuProps) => {
   return (
     <Card className="p-6 bg-transparent shadow-lg">
       <div className="flex flex-col items-center mb-8">
-        <img 
-          src="/logo.svg" 
-          alt="Fontain Bank Inc. Logo" 
-          className="w-24 h-24 mb-4"
-        />
         <h1 className="text-3xl font-bold text-primary mb-2">Fontain Bank Inc.</h1>
         <p className="text-sm text-gray-600">Digital Banking Solutions</p>
       </div>
