@@ -25,11 +25,11 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#00ffff", // Neon cyan color
+          DEFAULT: "#00ffff",
           foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#001a33", // Dark blue background
+          DEFAULT: "#001a33",
           foreground: "#00ffff",
         },
         success: {
@@ -45,12 +45,12 @@ export default {
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "#003366", // Deep blue accent
+          DEFAULT: "#003366",
           foreground: "#00ffff",
         },
         background: {
-          DEFAULT: "#001a33", // Dark blue background for better contrast
-          foreground: "#00ffff", // Neon cyan foreground
+          DEFAULT: "#001a33",
+          foreground: "#00ffff",
         },
       },
       borderRadius: {
@@ -71,11 +71,16 @@ export default {
           "0%": { transform: "translateX(100%)" },
           "100%": { transform: "translateX(0)" },
         },
+        pulse: {
+          '0%, 100%': { opacity: '0.4' },
+          '50%': { opacity: '0.8' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         slideIn: "slideIn 0.3s ease-out",
+        pulse: "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
     },
   },
