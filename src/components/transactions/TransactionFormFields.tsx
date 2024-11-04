@@ -22,31 +22,33 @@ export const TransactionFormFields = ({
   loanType,
   monthlyInterest,
 }: TransactionFormFieldsProps) => {
+  const inputClasses = "bg-white/10 border-cyan-500/30 text-cyan-100 placeholder-cyan-100/50 focus:border-cyan-400/50 focus:ring-cyan-400/20";
+
   if (type === "openAccount") {
     return (
       <div className="space-y-4">
-        <label className="block text-sm font-medium">
-          First Name
+        <label className="block">
+          <span className="text-cyan-100">First Name</span>
           <Input
             type="text"
             value={formData.firstName}
             onChange={(e) => onChange({ firstName: e.target.value })}
-            className="mt-1"
+            className={inputClasses}
             required
           />
         </label>
-        <label className="block text-sm font-medium">
-          Last Name
+        <label className="block">
+          <span className="text-cyan-100">Last Name</span>
           <Input
             type="text"
             value={formData.lastName}
             onChange={(e) => onChange({ lastName: e.target.value })}
-            className="mt-1"
+            className={inputClasses}
             required
           />
         </label>
-        <label className="block text-sm font-medium">
-          Initial Balance
+        <label className="block">
+          <span className="text-cyan-100">Initial Balance</span>
           <Input
             type="text"
             pattern="[0-9]*"
@@ -56,7 +58,7 @@ export const TransactionFormFields = ({
               const value = e.target.value.replace(/\D/g, "");
               onChange({ amount: value });
             }}
-            className="mt-1"
+            className={inputClasses}
             required
             style={inputStyle}
           />
@@ -67,8 +69,8 @@ export const TransactionFormFields = ({
 
   return (
     <div className="space-y-4">
-      <label className="block text-sm font-medium">
-        Account Number
+      <label className="block">
+        <span className="text-cyan-100">Account Number</span>
         <Input
           type="text"
           pattern="[0-9]*"
@@ -78,18 +80,20 @@ export const TransactionFormFields = ({
             const value = e.target.value.replace(/\D/g, "");
             onChange({ accountNumber: value });
           }}
-          className="mt-1"
+          className={inputClasses}
           required
           style={inputStyle}
         />
       </label>
       {type !== "closeAccount" && (
-        <label className="block text-sm font-medium">
-          {type === "loan"
-            ? loanType === "open"
-              ? "Loan Amount"
-              : "Payment Amount"
-            : "Amount"}
+        <label className="block">
+          <span className="text-cyan-100">
+            {type === "loan"
+              ? loanType === "open"
+                ? "Loan Amount"
+                : "Payment Amount"
+              : "Amount"}
+          </span>
           <Input
             type="text"
             pattern="[0-9]*"
@@ -99,15 +103,15 @@ export const TransactionFormFields = ({
               const value = e.target.value.replace(/\D/g, "");
               onChange({ amount: value });
             }}
-            className="mt-1"
+            className={inputClasses}
             required
             style={inputStyle}
           />
         </label>
       )}
       {type === "loan" && loanType === "open" && monthlyInterest && (
-        <label className="block text-sm font-medium">
-          Monthly Interest Rate (%)
+        <label className="block">
+          <span className="text-cyan-100">Monthly Interest Rate (%)</span>
           <Input
             type="text"
             pattern="[0-9]*"
@@ -117,7 +121,7 @@ export const TransactionFormFields = ({
               onChange({ amount: value });
             }}
             value={monthlyInterest}
-            className="mt-1 bg-gray-100"
+            className={`${inputClasses} bg-white/5`}
             disabled
             style={inputStyle}
           />

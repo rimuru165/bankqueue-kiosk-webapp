@@ -132,12 +132,16 @@ const TransactionFlow = ({
   }
 
   return (
-    <Card className="p-6 bg-white shadow-lg animate-slideIn">
-      <Button variant="ghost" className="mb-4" onClick={onBack}>
+    <Card className="p-6 bg-secondary/30 backdrop-blur-md border border-cyan-500/20">
+      <Button 
+        variant="ghost" 
+        className="mb-4 text-cyan-100 hover:text-cyan-300 hover:bg-white/5" 
+        onClick={onBack}
+      >
         ← Back
       </Button>
 
-      <h2 className="text-2xl font-bold text-center mb-6 text-primary">
+      <h2 className="text-2xl font-bold text-center mb-6 text-transparent bg-gradient-to-r from-cyan-300 via-cyan-200 to-blue-300 bg-clip-text">
         {type === "loan"
           ? `${formData.loanType === "open" ? "Open Loan" : "Pay Loan"}`
           : type.charAt(0).toUpperCase() + type.slice(1)}
@@ -153,7 +157,7 @@ const TransactionFlow = ({
             monthlyInterest={MONTHLY_INTEREST_RATE}
           />
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-6 text-cyan-100">
             <div className="space-y-2">
               {type === "openAccount" ? (
                 <>
@@ -197,8 +201,8 @@ const TransactionFlow = ({
         )}
         <Button
           type="submit"
-          className={`w-full ${
-            step === 2 ? "bg-success hover:bg-success/90" : ""
+          className={`w-full bg-cyan-500/20 hover:bg-cyan-400/30 text-cyan-100 border border-cyan-500/50 ${
+            step === 2 ? "bg-success/20 hover:bg-success/30 border-success/50" : ""
           }`}
         >
           {step === 2 && <Check className="w-4 h-4 mr-2" />}
