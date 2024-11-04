@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Check } from "lucide-react";
 import { TransactionFormFields } from "./transactions/TransactionFormFields";
 import { LoanTypeSelection } from "./transactions/LoanTypeSelection";
+import { TransactionConfirmation } from "./transactions/TransactionConfirmation";
 import {
   FormData,
   TransactionData,
@@ -42,8 +42,6 @@ const TransactionFlow = ({
       setStep(2);
     } else {
       const transactionData: TransactionData = prepareTransactionData();
-      console.log("Transaction Data:", transactionData);
-
       try {
         const response = await axios.post(
           "http://localhost:6543/queue/create-receipt",
@@ -108,7 +106,7 @@ const TransactionFlow = ({
     } else if (type === "closeAccount") {
       return "close_account";
     }
-    return type; // applies to deposit and withdrawal transaction types
+    return type;
   };
 
   const formatName = (name: string) => {
@@ -147,8 +145,8 @@ const TransactionFlow = ({
           : type.charAt(0).toUpperCase() + type.slice(1)}
       </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {step === 1 ? (
+      {step === 1 ? (
+        <form onSubmit={handleSubmit} className="space-y-6">
           <TransactionFormFields
             type={type}
             formData={formData}
@@ -156,59 +154,21 @@ const TransactionFlow = ({
             loanType={formData.loanType}
             monthlyInterest={MONTHLY_INTEREST_RATE}
           />
-        ) : (
-          <div className="space-y-6 text-cyan-100">
-            <div className="space-y-2">
-              {type === "openAccount" ? (
-                <>
-                  <p className="text-sm text-gray-600">First Name:</p>
-                  <p className="font-medium">
-                    {formatName(formData.firstName)}
-                  </p>
-                  <p className="text-sm text-gray-600">Last Name:</p>
-                  <p className="font-medium">{formatName(formData.lastName)}</p>
-                  <p className="text-sm text-gray-600">Initial Balance:</p>
-                  <p className="font-medium">
-                    ₱{parseFloat(formData.amount).toFixed(2)}
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p className="text-sm text-gray-600">Account Number:</p>
-                  <p className="font-medium">{formData.accountNumber}</p>
-                  {type !== "closeAccount" && (
-                    <>
-                      <p className="text-sm text-gray-600">Amount:</p>
-                      <p className="font-medium">
-                        ₱{parseFloat(formData.amount).toFixed(2)}
-                      </p>
-                      {type === "loan" && formData.loanType === "open" && (
-                        <>
-                          <p className="text-sm text-gray-600">
-                            Monthly Interest Rate:
-                          </p>
-                          <p className="font-medium">
-                            {MONTHLY_INTEREST_RATE}%
-                          </p>
-                        </>
-                      )}
-                    </>
-                  )}
-                </>
-              )}
-            </div>
-          </div>
-        )}
-        <Button
-          type="submit"
-          className={`w-full bg-cyan-500/20 hover:bg-cyan-400/30 text-cyan-100 border border-cyan-500/50 ${
-            step === 2 ? "bg-success/20 hover:bg-success/30 border-success/50" : ""
-          }`}
-        >
-          {step === 2 && <Check className="w-4 h-4 mr-2" />}
-          {step === 1 ? "Continue" : "Confirm"}
-        </Button>
-      </form>
+          <Button
+            type="submit"
+            className="w-full bg-cyan-500/20 hover:bg-cyan-400/30 text-cyan-100 border border-cyan-500/50"
+          >
+            Continue
+          </Button>
+        </form>
+      ) : (
+        <TransactionConfirmation
+          type={type}
+          formData={formData}
+          onSubmit={handleSubmit}
+          formatName={formatName}
+        />
+      )}
     </Card>
   );
 };
