@@ -19,10 +19,10 @@ const KioskMenu = ({ onSelectOption }: KioskMenuProps) => {
     <Card className="p-4 sm:p-8 bg-transparent">
       <div className="flex flex-col items-center mb-8 sm:mb-12">
         <h1 className="text-3xl sm:text-4xl font-bold text-transparent bg-gradient-to-r from-cyan-300 via-cyan-200 to-blue-300 bg-clip-text 
-                     animate-pulse shadow-glow mb-2">
+                     animate-pulse mb-2">
           Fontain Bank Inc.
         </h1>
-        <p className="text-cyan-100/80 text-shadow-neon">Digital Banking Solutions</p>
+        <p className="text-cyan-100/80">Digital Banking Solutions</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         {menuOptions.map((option) => (
@@ -31,8 +31,7 @@ const KioskMenu = ({ onSelectOption }: KioskMenuProps) => {
             variant="outline"
             className="h-24 sm:h-32 flex flex-col items-center justify-center gap-3 text-base sm:text-lg 
                      bg-white/5 hover:bg-white/10 border-cyan-500/20 hover:border-cyan-400 
-                     text-cyan-100 transition-all duration-300 group
-                     shadow-[0_0_15px_rgba(0,255,255,0.2)] hover:shadow-[0_0_25px_rgba(0,255,255,0.4)]"
+                     text-cyan-100 transition-all duration-300 group"
             onClick={() => onSelectOption(option.id)}
           >
             <div className="text-cyan-400 group-hover:text-cyan-300 transition-colors 
