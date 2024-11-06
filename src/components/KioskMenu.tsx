@@ -20,7 +20,7 @@ const KioskMenu = ({ onSelectOption }: KioskMenuProps) => {
       <div className="flex flex-col items-center mb-8 sm:mb-12">
         <h1 className="text-3xl sm:text-4xl font-bold text-transparent bg-gradient-to-r from-cyan-300 via-cyan-200 to-blue-300 bg-clip-text 
                      animate-pulse mb-2">
-          Fontain Bank Inc.
+          Fontaine Bank Inc.
         </h1>
         <p className="text-cyan-100/80">Digital Banking Solutions</p>
       </div>
