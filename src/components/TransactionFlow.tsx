@@ -4,13 +4,9 @@ import { Card } from "@/components/ui/card";
 import { TransactionFormFields } from "./transactions/TransactionFormFields";
 import { LoanTypeSelection } from "./transactions/LoanTypeSelection";
 import { TransactionConfirmation } from "./transactions/TransactionConfirmation";
-import {
-  FormData,
-  TransactionData,
-  ServerResponse,
-} from "@/types/transactions";
-import axios from "axios";
+import { FormData, TransactionData, ServerResponse } from "@/types/transactions";
 import { useToast } from "@/components/ui/use-toast";
+import { createReceipt } from "@/services/transactionService";
 
 interface TransactionFlowProps {
   type: string;
@@ -20,11 +16,7 @@ interface TransactionFlowProps {
 
 const MONTHLY_INTEREST_RATE = 3.5;
 
-const TransactionFlow = ({
-  type,
-  onComplete,
-  onBack,
-}: TransactionFlowProps) => {
+const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => {
   const [step, setStep] = useState(type === "loan" ? 0 : 1);
   const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>({
@@ -43,19 +35,14 @@ const TransactionFlow = ({
     } else {
       const transactionData: TransactionData = prepareTransactionData();
       try {
-        const response = await axios.post(
-          "http://localhost:6543/queue/create-receipt",
-          transactionData
-        );
-        onComplete(response.data);
+        const response = await createReceipt(transactionData);
+        onComplete(response);
       } catch (error: any) {
         console.error("Error creating receipt:", error);
         toast({
           variant: "destructive",
-          title: "Server Error",
-          description:
-            error.response?.data?.message ||
-            "Unable to connect to the server. Please ensure the server is running at http://localhost:6543",
+          title: "Error",
+          description: "Failed to process your transaction. Please try again.",
         });
       }
     }
