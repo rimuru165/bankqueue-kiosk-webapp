@@ -23,4 +23,5 @@ export interface ServerResponse {
   firstname?: string;
   lastname?: string;
   monthly_interest?: number;
+  completed_at?: string | null;
 }

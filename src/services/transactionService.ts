@@ -22,7 +22,6 @@ const getQueuePrefix = (type: string): string => {
 
 const getLastQueueNumber = async (prefix: string): Promise<number> => {
   try {
-    // Query the last receipt with the given prefix, ordered by timestamp
     const receiptsRef = collection(db, "receipts");
     const q = query(
       receiptsRef,
@@ -59,15 +58,18 @@ export const createReceipt = async (data: TransactionData): Promise<ServerRespon
     const queueNumber = await generateQueueNumber(data.type);
     const queuePrefix = getQueuePrefix(data.type);
     
+    // Create a plain object with only serializable data
     const receipt = {
       ...data,
       queue_number: queueNumber,
       queue_prefix: queuePrefix,
+      completed_at: null,
       timestamp: serverTimestamp(),
     };
 
     const docRef = await addDoc(collection(db, "receipts"), receipt);
 
+    // Return a plain object without any non-serializable data
     return {
       ...receipt,
       queue_number: queueNumber,
