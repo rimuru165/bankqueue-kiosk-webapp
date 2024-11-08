@@ -11,8 +11,9 @@ const getQueuePrefix = (type: string): string => {
     case "open_account":
       return "OA";
     case "open_loan":
+      return "OL";
     case "pay_loan":
-      return "L"; // Both loan types share the same prefix
+      return "PL";
     case "close_account":
       return "CA";
     default:
@@ -22,13 +23,26 @@ const getQueuePrefix = (type: string): string => {
 
 const getLastQueueNumber = async (prefix: string): Promise<number> => {
   try {
+    // For loans, we need to check both OL and PL prefixes
     const receiptsRef = collection(db, "receipts");
-    const q = query(
-      receiptsRef,
-      where("queue_prefix", "==", prefix),
-      orderBy("timestamp", "desc"),
-      limit(1)
-    );
+    let q;
+    
+    if (prefix === "OL" || prefix === "PL") {
+      // Query for both loan types
+      q = query(
+        receiptsRef,
+        where("queue_prefix", "in", ["OL", "PL"]),
+        orderBy("timestamp", "desc"),
+        limit(1)
+      );
+    } else {
+      q = query(
+        receiptsRef,
+        where("queue_prefix", "==", prefix),
+        orderBy("timestamp", "desc"),
+        limit(1)
+      );
+    }
 
     const querySnapshot = await getDocs(q);
     
