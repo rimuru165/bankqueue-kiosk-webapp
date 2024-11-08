@@ -7,6 +7,7 @@ import { TransactionConfirmation } from "./transactions/TransactionConfirmation"
 import { FormData, TransactionData, ServerResponse } from "@/types/transactions";
 import { useToast } from "@/components/ui/use-toast";
 import { createReceipt } from "@/services/transactionService";
+import { Loader2 } from "lucide-react";
 
 interface TransactionFlowProps {
   type: string;
@@ -18,6 +19,7 @@ const MONTHLY_INTEREST_RATE = 3.5;
 
 const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => {
   const [step, setStep] = useState(type === "loan" ? 0 : 1);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>({
     accountNumber: "",
@@ -33,6 +35,7 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
     if (step === 1) {
       setStep(2);
     } else {
+      setIsLoading(true);
       const transactionData: TransactionData = prepareTransactionData();
       try {
         const response = await createReceipt(transactionData);
@@ -44,7 +47,23 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
           title: "Error",
           description: "Failed to process your transaction. Please try again.",
         });
+      } finally {
+        setIsLoading(false);
       }
+    }
+  };
+
+  const handleBack = () => {
+    if (step === 2) {
+      setStep(1);
+    } else if (step === 1) {
+      if (type === "loan") {
+        setStep(0);
+      } else {
+        onBack();
+      }
+    } else {
+      onBack();
     }
   };
 
@@ -111,7 +130,7 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
           setFormData((prev) => ({ ...prev, loanType }));
           setStep(1);
         }}
-        onBack={onBack}
+        onBack={handleBack}
       />
     );
   }
@@ -121,7 +140,8 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
       <Button 
         variant="ghost" 
         className="mb-4 text-cyan-100 hover:text-cyan-300 hover:bg-white/5" 
-        onClick={onBack}
+        onClick={handleBack}
+        disabled={isLoading}
       >
         ← Back
       </Button>
@@ -144,6 +164,7 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
           <Button
             type="submit"
             className="w-full bg-cyan-500/20 hover:bg-cyan-400/30 text-cyan-100 border border-cyan-500/50"
+            disabled={isLoading}
           >
             Continue
           </Button>
@@ -154,6 +175,7 @@ const TransactionFlow = ({ type, onComplete, onBack }: TransactionFlowProps) => 
           formData={formData}
           onSubmit={handleSubmit}
           formatName={formatName}
+          isLoading={isLoading}
         />
       )}
     </Card>

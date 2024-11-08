@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import { FormData } from "@/types/transactions";
 
 interface TransactionConfirmationProps {
@@ -7,6 +7,7 @@ interface TransactionConfirmationProps {
   formData: FormData;
   onSubmit: (e: React.FormEvent) => void;
   formatName: (name: string) => string;
+  isLoading: boolean;
 }
 
 export const TransactionConfirmation = ({
@@ -14,6 +15,7 @@ export const TransactionConfirmation = ({
   formData,
   onSubmit,
   formatName,
+  isLoading,
 }: TransactionConfirmationProps) => {
   const MONTHLY_INTEREST_RATE = 3.5;
 
@@ -53,9 +55,19 @@ export const TransactionConfirmation = ({
       <Button
         type="submit"
         className="w-full bg-cyan-500/20 hover:bg-cyan-400/30 text-cyan-100 border border-cyan-500/50"
+        disabled={isLoading}
       >
-        <Check className="w-4 h-4 mr-2" />
-        Confirm
+        {isLoading ? (
+          <>
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            Processing...
+          </>
+        ) : (
+          <>
+            <Check className="w-4 h-4 mr-2" />
+            Confirm
+          </>
+        )}
       </Button>
     </form>
   );
