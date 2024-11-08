@@ -24,6 +24,18 @@ export const TransactionFormFields = ({
 }: TransactionFormFieldsProps) => {
   const inputClasses = "bg-white/10 border-cyan-500/30 text-cyan-100 placeholder-cyan-100/50 focus:border-cyan-400/50 focus:ring-cyan-400/20";
 
+  const handleAmountChange = (value: string) => {
+    // Allow only numbers and one decimal point
+    const sanitizedValue = value.replace(/[^\d.]/g, "");
+    // Ensure only one decimal point
+    const decimalCount = (sanitizedValue.match(/\./g) || []).length;
+    if (decimalCount > 1) {
+      const parts = sanitizedValue.split('.');
+      value = parts[0] + '.' + parts.slice(1).join('');
+    }
+    onChange({ amount: value });
+  };
+
   if (type === "openAccount") {
     return (
       <div className="space-y-4">
@@ -51,13 +63,9 @@ export const TransactionFormFields = ({
           <span className="text-cyan-100">Initial Balance</span>
           <Input
             type="text"
-            pattern="[0-9]*"
-            inputMode="numeric"
+            inputMode="decimal"
             value={formData.amount}
-            onChange={(e) => {
-              const value = e.target.value.replace(/\D/g, "");
-              onChange({ amount: value });
-            }}
+            onChange={(e) => handleAmountChange(e.target.value)}
             className={inputClasses}
             required
             style={inputStyle}
@@ -96,13 +104,9 @@ export const TransactionFormFields = ({
           </span>
           <Input
             type="text"
-            pattern="[0-9]*"
-            inputMode="numeric"
+            inputMode="decimal"
             value={formData.amount}
-            onChange={(e) => {
-              const value = e.target.value.replace(/\D/g, "");
-              onChange({ amount: value });
-            }}
+            onChange={(e) => handleAmountChange(e.target.value)}
             className={inputClasses}
             required
             style={inputStyle}
