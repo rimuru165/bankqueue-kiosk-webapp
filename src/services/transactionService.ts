@@ -1,6 +1,12 @@
-import { collection, addDoc, serverTimestamp, getDocs, query, where, orderBy, limit } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, getDocs, query, where, orderBy, limit, DocumentData } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { TransactionData, ServerResponse } from "@/types/transactions";
+
+interface ReceiptDocument extends DocumentData {
+  queue_number: string;
+  queue_prefix: string;
+  timestamp: Date;
+}
 
 const getQueuePrefix = (type: string): string => {
   switch (type) {
@@ -50,7 +56,7 @@ const getLastQueueNumber = async (prefix: string): Promise<number> => {
       return 0;
     }
 
-    const lastReceipt = querySnapshot.docs[0].data();
+    const lastReceipt = querySnapshot.docs[0].data() as ReceiptDocument;
     const lastNumber = parseInt(lastReceipt.queue_number.slice(-2));
     
     return lastNumber;
